@@ -3,6 +3,6 @@
 package cmds
 
 const (
-	DefaultPauseImage  = "rancher/mirrored-pause:3.6"
+	DefaultPauseImage  = "carvicsforth/pause:v3.10-v1.31.1"
 	DefaultSnapshotter = "overlayfs"
 )

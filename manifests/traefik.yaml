@@ -6,6 +6,7 @@ metadata:
   namespace: kube-system
 spec:
   chart: https://%{KUBERNETES_API}%/static/charts/traefik-crd-27.0.201+up27.0.2.tgz
+  jobImage: carvicsforth/klipper-helm:v0.9.3-build20241008
 ---
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
@@ -14,6 +15,7 @@ metadata:
   namespace: kube-system
 spec:
   chart: https://%{KUBERNETES_API}%/static/charts/traefik-27.0.201+up27.0.2.tgz
+  jobImage: carvicsforth/klipper-helm:v0.9.3-build20241008
   set:
     global.systemDefaultRegistry: "%{SYSTEM_DEFAULT_REGISTRY_RAW}%"
   valuesContent: |-
@@ -27,7 +29,7 @@ spec:
           enabled: true
     priorityClassName: "system-cluster-critical"
     image:
-      repository: "rancher/mirrored-library-traefik"
+      repository: "traefik"
       tag: "2.11.10"
     tolerations:
     - key: "CriticalAddonsOnly"
