@@ -11,11 +11,11 @@ scms:
       repository: '{{ requiredEnv .github.repo }}'
       branch: '{{ requiredEnv .github.branch }}'
       commitmessage:
-        title: "Bump rancher/mirrored-metrics-server image version"
+        title: "Bump carvicsforth/metrics-server image version"
 
 actions:
   github:
-    title: "[{{ requiredEnv .github.branch }}] Bump rancher/mirrored-metrics-server image version"
+    title: "[{{ requiredEnv .github.branch }}] Bump carvicsforth/metrics-server image version"
     kind: "github/pullrequest"
     scmid: "k3s"
     spec:
@@ -26,12 +26,12 @@ actions:
         - "dependencies"
 
 sources:
-  # Retrieve the latest tag from the rancher/mirrored-metrics-server repository
+  # Retrieve the latest tag from the carvicsforth/metrics-server repository
   metrics-server-docker-image:
     name: "Check Metrics Server image tag in DockerHub"
     kind: "dockerimage"
     spec:
-      image: "rancher/mirrored-metrics-server"
+      image: "carvicsforth/metrics-server"
       versionfilter:
         kind: "semver"
         strict: false
@@ -48,11 +48,11 @@ sources:
 
 conditions:
   docker-image:
-    name: "Check latest image tag for rancher/mirrored-metrics-server"
+    name: "Check latest image tag for carvicsforth/metrics-server"
     kind: "dockerimage"
     disablesourceinput: true
     spec:
-      image: "rancher/mirrored-metrics-server"
+      image: "carvicsforth/metrics-server"
       tag: '{{ source "metrics-server-docker-image" }}'
 
 targets:
@@ -64,8 +64,8 @@ targets:
     spec:
       files:
         - "manifests/metrics-server/metrics-server-deployment.yaml"
-      matchpattern: 'image: "%{SYSTEM_DEFAULT_REGISTRY}%rancher/mirrored-metrics-server:\S+"'
-      replacepattern: 'image: "%{SYSTEM_DEFAULT_REGISTRY}%rancher/mirrored-metrics-server:{{ source "metrics-server-docker-image" }}"'
+      matchpattern: 'image: "%{SYSTEM_DEFAULT_REGISTRY}%carvicsforth/metrics-server:\S+"'
+      replacepattern: 'image: "%{SYSTEM_DEFAULT_REGISTRY}%carvicsforth/metrics-server:{{ source "metrics-server-docker-image" }}"'
 
   metrics-server-airgap:
     name: "Update Metrics Server image version in scripts/airgap/image-list"
@@ -75,5 +75,5 @@ targets:
     spec:
       files:
         - "scripts/airgap/image-list.txt"
-      matchpattern: 'docker.io/rancher/mirrored-metrics-server:\S+'
-      replacepattern: 'docker.io/rancher/mirrored-metrics-server:{{ source "metrics-server-docker-image" }}'
+      matchpattern: 'docker.io/carvicsforth/metrics-server:\S+'
+      replacepattern: 'docker.io/carvicsforth/metrics-server:{{ source "metrics-server-docker-image" }}'
